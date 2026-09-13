@@ -63,9 +63,7 @@ body{
 .no{position:absolute;left:50%;top:14px;transform:translateX(-50%);width:126px;
   transition:transform .55s cubic-bezier(.4,0,.2,1), opacity .5s ease}
 .instrucao{position:absolute;bottom:2px;left:0;right:0;margin:0;
-  font-size:.7rem;letter-spacing:.2em;color:var(--sage);transition:opacity .3s;line-height:1.5}
-.instrucao span{display:block;font-size:.66rem;letter-spacing:.04em;font-style:italic;
-  color:var(--tinta-suave);opacity:.75;text-transform:none}
+  font-size:.74rem;font-weight:500;letter-spacing:.18em;color:var(--terra);transition:opacity .3s;line-height:1.5}
 
 .laco::after{
   content:"";position:absolute;left:50%;top:56px;width:96px;height:96px;margin:-48px 0 0 -48px;
@@ -83,7 +81,7 @@ body{
   86%{transform:translateX(-50%) rotate(2.5deg)}
 }
 .no{animation:respira 2.8s ease-in-out infinite}
-@keyframes piscar{0%,100%{opacity:.55}50%{opacity:1}}
+@keyframes piscar{0%,100%{opacity:.8}50%{opacity:1}}
 .instrucao{animation:piscar 2.8s ease-in-out infinite}
 .laco:hover .no{transform:translateX(-50%) scale(1.05);animation:none}
 
@@ -281,13 +279,13 @@ function renderPresente(tk){
 
         <h1 class="nome">${p.nome}</h1>
 
-        <p class="intro">Você já leu o que eu tinha pra dizer. Faltava só não te deixar de mãos vazias.</p>
+        <p class="intro">Você já leu o que eu tinha pra dizer. Mas não dava pra te agradecer de mãos vazias.</p>
 
         <button class="laco" id="laco" aria-label="Abrir o presente">
           <span class="fita esq"></span>
           <span class="fita dir"></span>
           ${LACO}
-          <p class="instrucao">TOQUE PARA ABRIR O SEU PRESENTE<span>lá ele</span></p>
+          <p class="instrucao">TOQUE PARA ABRIR O SEU PRESENTE</p>
         </button>
 
         <div class="dentro" id="dentro">
