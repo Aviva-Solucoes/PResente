@@ -98,6 +98,7 @@ body{
 .dentro{max-height:0;opacity:0;overflow:hidden;
   transition:max-height .8s cubic-bezier(.22,.9,.3,1),opacity .5s ease .25s}
 .dentro.aberto{max-height:620px;opacity:1}
+.piada{font-size:.95rem;color:var(--tinta-suave);text-align:center;margin:2px 0 0}
 .valor{font-size:3.1rem;font-weight:300;color:var(--terra);line-height:1;margin:6px 0 0;text-align:center;letter-spacing:-.01em}
 .recado{font-size:1rem;line-height:1.65;margin:20px auto 28px;text-align:center;max-width:31ch}
 label{display:block;font-size:.85rem;color:var(--tinta-suave);margin-bottom:7px}
@@ -279,7 +280,7 @@ function renderPresente(tk){
 
         <h1 class="nome">${p.nome}</h1>
 
-        <p class="intro">Você já leu o que eu tinha pra dizer. Mas não dava pra te agradecer de mãos vazias.</p>
+        <p class="intro">O cartão você leu, o kit você abriu. Faltou o que não deu pra colocar na caixa.</p>
 
         <button class="laco" id="laco" aria-label="Abrir o presente">
           <span class="fita esq"></span>
@@ -289,6 +290,7 @@ function renderPresente(tk){
         </button>
 
         <div class="dentro" id="dentro">
+          <p class="piada">O resto do kit é on-premise. Esse aqui só na nuvem.</p>
           <p class="valor">R$ ${brl(CONFIG.valor)}</p>
           <p class="recado">${p.recado}</p>
 
