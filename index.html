@@ -65,6 +65,29 @@ body{
 .instrucao{position:absolute;bottom:6px;left:0;right:0;margin:0;
   font-size:.7rem;letter-spacing:.2em;color:var(--sage);transition:opacity .3s}
 
+.laco::after{
+  content:"";position:absolute;left:50%;top:56px;width:96px;height:96px;margin:-48px 0 0 -48px;
+  border-radius:50%;border:1px solid var(--gold);opacity:0;pointer-events:none;
+  animation:halo 2.8s ease-out infinite;
+}
+@keyframes halo{
+  0%{transform:scale(.55);opacity:.5}
+  70%{transform:scale(1.25);opacity:0}
+  100%{opacity:0}
+}
+@keyframes respira{
+  0%,68%,100%{transform:translateX(-50%) rotate(0deg)}
+  76%{transform:translateX(-50%) rotate(-3deg)}
+  86%{transform:translateX(-50%) rotate(2.5deg)}
+}
+.no{animation:respira 2.8s ease-in-out infinite}
+@keyframes piscar{0%,100%{opacity:.55}50%{opacity:1}}
+.instrucao{animation:piscar 2.8s ease-in-out infinite}
+.laco:hover .no{transform:translateX(-50%) scale(1.05);animation:none}
+
+.laco.desatado::after{animation:none;opacity:0}
+.laco.desatado .no{animation:none}
+.laco.desatado .instrucao{animation:none}
 .laco.desatado .fita.esq{transform:translateX(-150%) rotate(-4deg);opacity:0}
 .laco.desatado .fita.dir{transform:translateX(150%) rotate(4deg);opacity:0}
 .laco.desatado .no{transform:translateX(-50%) scale(.35) rotate(-18deg);opacity:0}
@@ -119,7 +142,7 @@ button.enviar:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
   .grid{grid-template-columns:repeat(3,1fr);gap:8mm;padding:12mm}
   .etiqueta{border:1px dashed #C9BFA6}
 }
-@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
 </style>
 </head>
 <body>
@@ -256,7 +279,7 @@ function renderPresente(tk){
 
         <h1 class="nome">${p.nome}</h1>
 
-        <p class="intro">O cartão foi a parte séria. Essa aqui não é.</p>
+        <p class="intro">Você já leu o que eu tinha pra dizer. Faltava só não te deixar de mãos vazias.</p>
 
         <button class="laco" id="laco" aria-label="Desatar o laço">
           <span class="fita esq"></span>
