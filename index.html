@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Toda conquista tem pessoas por trás</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Parisienne&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<style>
+:root{
+  --creme:#F7F2E6;
+  --creme-claro:#FDFBF5;
+  --sage:#9AA88C;
+  --gold:#C6A252;
+  --terra:#A46E3C;
+  --tinta:#55565E;
+  --tinta-suave:#8A8B92;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{
+  min-height:100dvh;background:#EDE7DA;color:var(--tinta);
+  font-family:Jost,system-ui,sans-serif;font-weight:300;
+  display:flex;align-items:center;justify-content:center;
+  padding:22px 16px 36px;
+}
+.wrap{width:100%;max-width:430px}
+
+.cartao{
+  position:relative;overflow:hidden;border-radius:6px;
+  background:radial-gradient(140% 90% at 0% 0%, #FDFBF5 0%, #F7F2E6 55%, #F1EADA 100%);
+  box-shadow:0 22px 50px -24px rgba(76,64,44,.45), 0 2px 0 rgba(255,255,255,.7) inset;
+  padding:40px 30px 34px;
+}
+.folha{position:absolute;top:-38px;right:-46px;width:210px;opacity:.85;pointer-events:none}
+.fio{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+.poente{
+  position:absolute;left:0;right:0;bottom:0;height:140px;pointer-events:none;
+  background:linear-gradient(180deg,rgba(247,242,230,0) 0%,rgba(244,200,138,.3) 42%,rgba(214,146,84,.48) 100%);
+}
+.poente svg{position:absolute;bottom:0;left:0;width:100%}
+.conteudo{position:relative;z-index:2}
+
+.eyebrow{font-size:.66rem;font-weight:400;letter-spacing:.22em;color:var(--sage);line-height:1.9;margin:0 0 26px}
+.nome{font-family:Parisienne,cursive;font-size:clamp(3rem,16vw,3.9rem);line-height:.95;color:var(--terra);margin:0 0 6px;font-weight:400}
+.projeto{font-size:.74rem;letter-spacing:.18em;color:var(--tinta-suave);margin:0 0 24px}
+.intro{font-size:1rem;line-height:1.65;margin:0 0 4px;max-width:33ch}
+
+/* ---------------- laço ---------------- */
+.laco{position:relative;height:150px;margin:10px 0 0;display:block;width:100%;
+  background:none;border:0;padding:0;cursor:pointer}
+.laco:focus-visible{outline:2px solid var(--terra);outline-offset:6px;border-radius:4px}
+.fita{
+  position:absolute;top:58px;height:15px;width:52%;
+  background:linear-gradient(180deg,#E0C480 0%,#C6A252 45%,#9C7C34 100%);
+  box-shadow:0 3px 6px -3px rgba(120,90,30,.6);
+  transition:transform .8s cubic-bezier(.5,0,.75,0), opacity .8s ease;
+}
+.fita.esq{left:-30px;border-radius:0 2px 2px 0}
+.fita.dir{right:-30px;border-radius:2px 0 0 2px}
+.no{position:absolute;left:50%;top:14px;transform:translateX(-50%);width:126px;
+  transition:transform .55s cubic-bezier(.4,0,.2,1), opacity .5s ease}
+.instrucao{position:absolute;bottom:6px;left:0;right:0;margin:0;
+  font-size:.7rem;letter-spacing:.2em;color:var(--sage);transition:opacity .3s}
+
+.laco.desatado .fita.esq{transform:translateX(-150%) rotate(-4deg);opacity:0}
+.laco.desatado .fita.dir{transform:translateX(150%) rotate(4deg);opacity:0}
+.laco.desatado .no{transform:translateX(-50%) scale(.35) rotate(-18deg);opacity:0}
+.laco.desatado .instrucao{opacity:0}
+.laco.some{height:0;margin:0;overflow:hidden;transition:height .5s ease .5s,margin .5s ease .5s}
+
+/* ---------------- dentro ---------------- */
+.dentro{max-height:0;opacity:0;overflow:hidden;
+  transition:max-height .8s cubic-bezier(.22,.9,.3,1),opacity .5s ease .25s}
+.dentro.aberto{max-height:620px;opacity:1}
+.valor{font-size:3.1rem;font-weight:300;color:var(--terra);line-height:1;margin:6px 0 0;text-align:center;letter-spacing:-.01em}
+.recado{font-size:1rem;line-height:1.65;margin:20px auto 28px;text-align:center;max-width:31ch}
+label{display:block;font-size:.85rem;color:var(--tinta-suave);margin-bottom:7px}
+input{width:100%;padding:13px 14px;border-radius:4px;
+  border:1px solid rgba(166,142,90,.45);background:rgba(255,255,255,.75);
+  font-family:Jost,sans-serif;font-weight:300;font-size:1rem;color:var(--tinta)}
+input::placeholder{color:#B6AE9C}
+input:focus{outline:2px solid var(--gold);outline-offset:1px;border-color:transparent}
+.erro{color:#B15A46;font-size:.82rem;margin:8px 0 0;min-height:1em}
+button.enviar{margin-top:12px;width:100%;padding:14px;border:0;border-radius:4px;cursor:pointer;
+  background:var(--terra);color:#FDFBF5;font-family:Jost,sans-serif;font-weight:400;font-size:.98rem}
+button.enviar:hover{filter:brightness(1.07)}
+button.enviar:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+.assina{margin:32px 0 0;text-align:right;font-family:Parisienne,cursive;font-size:1.7rem;color:var(--tinta);line-height:1}
+
+/* ---------------- etiquetas ---------------- */
+.admin{max-width:900px}
+.admin h2{font-family:Parisienne,cursive;font-size:2.4rem;color:var(--terra);margin:0 0 2px;font-weight:400}
+.admin .note{color:#7C7566;font-size:.92rem;line-height:1.6;margin:0 0 24px;max-width:58ch}
+.acoes{display:flex;gap:10px;margin-bottom:26px}
+.acoes button{padding:11px 18px;border:1px solid var(--terra);border-radius:4px;cursor:pointer;
+  background:transparent;color:var(--terra);font-family:Jost,sans-serif;font-size:.85rem}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(215px,1fr));gap:14px}
+.etiqueta{background:var(--creme-claro);border:1px solid rgba(198,162,82,.4);border-radius:4px;
+  padding:18px 14px 16px;text-align:center;break-inside:avoid}
+.etiqueta .en{font-family:Parisienne,cursive;font-size:1.7rem;color:var(--terra);line-height:1;margin:0 0 3px}
+.etiqueta .em{font-size:.6rem;letter-spacing:.16em;color:var(--sage);margin:0 0 12px}
+.etiqueta .qr{display:flex;justify-content:center}
+.etiqueta .el{font-size:.58rem;color:#A79E8C;word-break:break-all;margin:9px 0 0}
+.etiqueta .ver{margin-top:10px;width:100%;padding:8px;cursor:pointer;background:transparent;
+  border:1px solid rgba(198,162,82,.55);border-radius:3px;
+  font-family:Jost,sans-serif;font-size:.74rem;color:var(--terra)}
+.etiqueta .ver:hover{background:rgba(198,162,82,.12)}
+.voltar{display:block;margin:16px auto 0;padding:9px 16px;cursor:pointer;background:transparent;
+  border:0;color:#8A8B92;font-family:Jost,sans-serif;font-size:.8rem}
+.voltar:hover{color:var(--terra)}
+@media print{
+  body{background:#fff;display:block;padding:0}
+  .noprint{display:none}
+  .grid{grid-template-columns:repeat(3,1fr);gap:8mm;padding:12mm}
+  .etiqueta{border:1px dashed #C9BFA6}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+
+<!-- ====================== CONFIGURAÇÃO ====================== -->
+<script>
+const CONFIG = {
+  baseUrl: "",                      // deixe vazio: usa o endereço onde a página estiver
+  whatsapp: "5511968424497",        // DDI+DDD, só números
+  valor: 30,
+  assinatura: "Wenderson R. Leal",
+
+  // recado = frase que aparece depois do laço
+  // zap    = mensagem que vai pro seu WhatsApp ({chave} é substituído)
+  pessoas: [
+    { nome:"Victor",   token:"vc7k2q",
+      recado:"Trinta reais não migram reserva nenhuma. Mas dão um lanche tranquilo.",
+      zap:"Desatei o laço! Migrei a chave sem erro na primeira tentativa: {chave}" },
+
+    { nome:"Wallace",  token:"wl4m9x",
+      recado:"Isso aqui não é o encerramento. É só o cafezinho da Fase 1.",
+      zap:"Laço desatado! Fase 1 do presente concluída. Segue a chave pra Fase 2: {chave}" },
+
+    { nome:"Alímpio",  token:"al8p3r",
+      recado:"Sem validação, sem inconsistência e sem TSE. Só um lanche.",
+      zap:"Desatei o laço! Chave conferida, validada e sem inconsistência: {chave}" },
+
+    { nome:"Antoniel", token:"an1r6t",
+      recado:"Você segurou o time inteiro. Agora segure um pastel.",
+      zap:"Desatei o laço! Chave entregue no prazo, como de costume: {chave}" },
+
+    { nome:"Pedro",    token:"pd5t7w",
+      recado:"Trinta reais não resolvem nada às 3 da manhã. De dia, resolvem um lanche.",
+      zap:"Desatei o laço! Só falta resolver uma coisa: {chave}" }
+  ]
+};
+</script>
+<!-- ========================================================== -->
+
+<div class="wrap" id="app"></div>
+
+<script>
+if (!CONFIG.baseUrl) CONFIG.baseUrl = location.origin + location.pathname;
+
+const FOLHA = `<svg class="folha" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+  <g fill="#9AA88C" opacity=".5">
+    <path d="M120 20c-30 6-52 30-58 60 30-4 54-26 58-60z"/>
+    <path d="M158 48c-28 12-46 38-48 68 29-9 49-34 48-68z"/>
+    <path d="M92 62c-24 14-38 40-36 68 25-12 40-38 36-68z"/>
+  </g>
+  <path fill="#DDE3D4" opacity=".75" d="M176 96c-24 16-36 44-32 72 24-16 37-44 32-72z"/>
+</svg>`;
+
+const LACO = `<svg class="no" viewBox="0 0 180 120" xmlns="http://www.w3.org/2000/svg">
+  <defs><linearGradient id="ft" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0" stop-color="#E6CC8A"/><stop offset=".5" stop-color="#C6A252"/>
+    <stop offset="1" stop-color="#9C7C34"/></linearGradient></defs>
+  <path d="M86 50 C 58 20, 14 24, 16 50 C 18 74, 62 72, 86 56 Z" fill="url(#ft)"/>
+  <path d="M94 50 C 122 20, 166 24, 164 50 C 162 74, 118 72, 94 56 Z" fill="url(#ft)"/>
+  <path d="M84 58 C 70 78, 60 94, 48 110 L 68 108 C 76 92, 82 74, 88 62 Z" fill="url(#ft)" opacity=".92"/>
+  <path d="M96 58 C 110 78, 120 94, 132 110 L 112 108 C 104 92, 98 74, 92 62 Z" fill="url(#ft)" opacity=".92"/>
+  <ellipse cx="90" cy="54" rx="13" ry="11" fill="#B8934A"/>
+  <ellipse cx="88" cy="51" rx="7" ry="5" fill="#E6CC8A" opacity=".55"/>
+</svg>`;
+
+const params = new URLSearchParams(location.search);
+const token  = params.get("t");
+const app    = document.getElementById("app");
+const brl    = v => v.toLocaleString("pt-BR",{minimumFractionDigits:2,maximumFractionDigits:2});
+
+if (!token) renderEtiquetas(); else renderPresente();
+
+function renderEtiquetas(){
+  app.className = "wrap admin";
+  app.innerHTML = `
+    <h2>Etiquetas do presente</h2>
+    <p class="note">Uma por pessoa. Imprima, recorte e cole na parte interna do cartão —
+       ou copie o link e mande no WhatsApp. Cada QR abre só o presente daquela pessoa.</p>
+    <div class="acoes noprint">
+      <button onclick="window.print()">Imprimir</button>
+      <button onclick="copiarLinks(this)">Copiar todos os links</button>
+    </div>
+    <div class="grid" id="grid"></div>`;
+
+  const grid = document.getElementById("grid");
+  CONFIG.pessoas.forEach(p => {
+    const url = `${CONFIG.baseUrl}?t=${p.token}`;
+    const el = document.createElement("div");
+    el.className = "etiqueta";
+    el.innerHTML = `
+      <p class="en">${p.nome}</p>
+      <p class="em">APONTE A CÂMERA</p>
+      <div class="qr"></div>
+      <p class="el">${url}</p>
+      <button class="ver noprint">Ver como fica</button>`;
+    grid.appendChild(el);
+    new QRCode(el.querySelector(".qr"), {
+      text:url, width:124, height:124,
+      colorDark:"#55565E", colorLight:"#FDFBF5",
+      correctLevel: QRCode.CorrectLevel.M
+    });
+    el.querySelector(".ver").addEventListener("click", () => {
+      app.className = "wrap"; renderPresente(p.token); window.scrollTo(0,0);
+    });
+  });
+}
+
+function copiarLinks(btn){
+  const txt = CONFIG.pessoas.map(p => `${p.nome}: ${CONFIG.baseUrl}?t=${p.token}`).join("\n");
+  navigator.clipboard.writeText(txt).then(() => {
+    btn.textContent = "Links copiados";
+    setTimeout(() => btn.textContent = "Copiar todos os links", 2200);
+  });
+}
+
+function renderPresente(tk){
+  const alvo = tk || token;
+  const p = CONFIG.pessoas.find(x => x.token === alvo);
+  if (!p){
+    app.innerHTML = `<div class="cartao"><div class="conteudo">
+      <p class="nome" style="font-size:2.4rem">Link não encontrado</p>
+      <p class="intro">Confere o endereço ou fala comigo.</p></div></div>`;
+    return;
+  }
+
+  app.innerHTML = `
+    <div class="cartao">
+      ${FOLHA}
+      <svg class="fio" viewBox="0 0 430 620" preserveAspectRatio="none">
+        <path d="M430 8 C 330 70, 372 190, 430 232" fill="none" stroke="#C6A252" stroke-width="1.1" opacity=".7"/>
+        <path d="M0 612 C 96 560, 70 450, 0 412" fill="none" stroke="#C6A252" stroke-width="1.1" opacity=".45"/>
+      </svg>
+      <div class="poente"><svg viewBox="0 0 430 90" preserveAspectRatio="none">
+        <path d="M0 90 L0 58 C 60 40, 120 66, 178 44 C 236 22, 300 52, 358 36 C 390 27, 412 34, 430 28 L430 90 Z"
+              fill="#B07A45" opacity=".34"/></svg></div>
+
+      <div class="conteudo">
+        <p class="eyebrow">TODA CONQUISTA<br>TEM PESSOAS POR TRÁS.</p>
+
+        <h1 class="nome">${p.nome}</h1>
+
+        <p class="intro">O cartão foi a parte séria. Essa aqui não é.</p>
+
+        <button class="laco" id="laco" aria-label="Desatar o laço">
+          <span class="fita esq"></span>
+          <span class="fita dir"></span>
+          ${LACO}
+          <p class="instrucao">DESATE O LAÇO</p>
+        </button>
+
+        <div class="dentro" id="dentro">
+          <p class="valor">R$ ${brl(CONFIG.valor)}</p>
+          <p class="recado">${p.recado}</p>
+
+          <label for="chave">Sua chave Pix</label>
+          <input id="chave" type="text" autocomplete="off" placeholder="CPF, celular, e-mail ou aleatória">
+          <p class="erro" id="erro"></p>
+          <button class="enviar" id="enviar">Mandar a chave no WhatsApp</button>
+
+          <p class="assina">${CONFIG.assinatura}</p>
+        </div>
+      </div>
+    </div>`;
+
+  if (tk){
+    const voltar = document.createElement("button");
+    voltar.className = "voltar noprint";
+    voltar.textContent = "voltar para as etiquetas";
+    voltar.addEventListener("click", renderEtiquetas);
+    app.appendChild(voltar);
+  }
+
+  const laco   = document.getElementById("laco");
+  const dentro = document.getElementById("dentro");
+  laco.addEventListener("click", () => {
+    if (laco.classList.contains("desatado")) return;
+    laco.classList.add("desatado");
+    setTimeout(() => laco.classList.add("some"), 500);
+    setTimeout(() => {
+      dentro.classList.add("aberto");
+      dentro.scrollIntoView({behavior:"smooth", block:"nearest"});
+    }, 620);
+  });
+
+  document.getElementById("enviar").addEventListener("click", () => {
+    const chave = document.getElementById("chave").value.trim();
+    const erro  = document.getElementById("erro");
+    if (chave.length < 5){ erro.textContent = "Digite sua chave Pix completa."; return; }
+    erro.textContent = "";
+    const texto = p.zap.replace("{chave}", chave) + `\n\n— ${p.nome}`;
+    window.open(`https://wa.me/${CONFIG.whatsapp}?text=${encodeURIComponent(texto)}`, "_blank");
+  });
+}
+</script>
+</body>
+</html>
