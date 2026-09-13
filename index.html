@@ -210,17 +210,12 @@ function renderEtiquetas(){
     el.innerHTML = `
       <p class="en">${p.nome}</p>
       <p class="em">APONTE A CÂMERA</p>
-      <div class="qr"></div>
-      <p class="el">${url}</p>
-      <button class="ver noprint">Ver como fica</button>`;
+      <div class="qr"></div>`;
     grid.appendChild(el);
     new QRCode(el.querySelector(".qr"), {
       text:url, width:124, height:124,
       colorDark:"#55565E", colorLight:"#FDFBF5",
       correctLevel: QRCode.CorrectLevel.M
-    });
-    el.querySelector(".ver").addEventListener("click", () => {
-      app.className = "wrap"; renderPresente(p.token); window.scrollTo(0,0);
     });
   });
 }
