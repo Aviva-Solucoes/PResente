@@ -112,7 +112,9 @@ button.enviar:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
   border:0;color:#8A8B92;font-family:Jost,sans-serif;font-size:.8rem}
 .voltar:hover{color:var(--terra)}
 @media print{
+  *{-webkit-print-color-adjust:exact;print-color-adjust:exact}
   body{background:#fff;display:block;padding:0}
+  .etiqueta canvas,.etiqueta img{display:block!important;max-width:100%;height:auto}
   .noprint{display:none}
   .grid{grid-template-columns:repeat(3,1fr);gap:8mm;padding:12mm}
   .etiqueta{border:1px dashed #C9BFA6}
